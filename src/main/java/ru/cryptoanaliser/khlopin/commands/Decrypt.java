@@ -1,3 +1,8 @@
+package ru.cryptoanaliser.khlopin.commands;
+
+import ru.cryptoanaliser.khlopin.constants.Constants;
+import ru.cryptoanaliser.khlopin.entity.Result;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -5,13 +10,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class Decrypt {
+public class Decrypt implements Action {
 
     public void decrypt(String text, int key) {
         char[] charArray = text.toCharArray();
         for (int i = 0; i < text.length(); i++) {
             int temp = Constants.getALPHABET().indexOf(text.charAt(i)); // Получаем индекс символа в алфавите из входящего текста
-            Constants.getALPHABET().get((temp - key) % (Constants.getALPHABET().size()));
+            if (temp - key < 0) {
+                int test = temp - key;
+                charArray[i] = Constants.getALPHABET().get(Constants.getALPHABET().size() + test);
+            } else {
+                charArray[i] = Constants.getALPHABET().get((temp - key) % (Constants.getALPHABET().size()));
+            }
         }
 
         final ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(CharBuffer.wrap(charArray));
@@ -23,5 +33,11 @@ public class Decrypt {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public Result execute(String[] parameters) {
+        //TODO Вставить сюда код сверху
+        return null;
     }
 }

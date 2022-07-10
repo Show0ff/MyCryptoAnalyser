@@ -1,3 +1,8 @@
+package ru.cryptoanaliser.khlopin.commands;
+
+import ru.cryptoanaliser.khlopin.constants.Constants;
+import ru.cryptoanaliser.khlopin.entity.Result;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -5,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class Encrypting {
+public class Encrypt implements Action{
 
     public void crypt(String text, int key) { //метод шифрования
             char[] charArray = text.toCharArray();
@@ -23,5 +28,11 @@ public class Encrypting {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public Result execute(String[] parameters) {
+        //TODO Вставить сюда код сверху
+        return null;
     }
 }

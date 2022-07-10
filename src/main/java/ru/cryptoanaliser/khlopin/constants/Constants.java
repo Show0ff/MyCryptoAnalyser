@@ -1,3 +1,5 @@
+package ru.cryptoanaliser.khlopin.constants;
+
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;

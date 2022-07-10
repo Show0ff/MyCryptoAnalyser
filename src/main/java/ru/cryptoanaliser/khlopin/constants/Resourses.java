@@ -1,7 +1,8 @@
+package ru.cryptoanaliser.khlopin.constants;
+
 import java.io.IOException;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Resourses {
