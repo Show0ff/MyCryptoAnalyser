@@ -1,11 +1,22 @@
 
 public class Runner {
     public static void main(String[] args) {
+        doDecrypt();
+    }
+
+    public static void doCrypt() {
         Encrypting encrypting = new Encrypting();
         Resourses resourses = new Resourses();
-        String text = resourses.getTextForCrypt();
+        String text1 = resourses.getTextForCrypt();
         int key = resourses.getKey();
-        String way = resourses.getWay();
-        System.out.println(encrypting.crypt(text,key,way));
+        encrypting.crypt(text1,key);
+    }
+
+    public static void doDecrypt() {
+        Decrypt decrypt = new Decrypt();
+        Resourses resourses = new Resourses();
+        String text2 = resourses.getTextForDecrypt();
+        int key = resourses.getKey();
+        decrypt.decrypt(text2,key);
     }
 }

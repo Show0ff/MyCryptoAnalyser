@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.Files;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Resourses {
@@ -8,7 +10,29 @@ public class Resourses {
         try {
             if (Files.exists(Constants.getOriginalText())) {
                 textString = String.valueOf(Files.readAllLines(Constants.getOriginalText()));
-                return textString.substring(1,textString.length() - 1);
+                if (!textString.isEmpty()) {
+                    return textString.substring(1, textString.length() - 1).toLowerCase();
+                } else {
+                    System.out.println("Текст отсутствует в файле"); }
+            } else {
+                System.out.println("Файла не существует");
+                throw new FileSystemNotFoundException();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return textString;
+    }
+
+    public String getTextForDecrypt() { // получить текст для Дешифровки
+        String textString = null;
+        try {
+            if (Files.exists(Constants.getCryptText())) {
+                textString = String.valueOf(Files.readAllLines(Constants.getCryptText()));
+                if (!textString.isEmpty()) {
+                    return textString.substring(1, textString.length() - 1);
+                } else {
+                    System.out.println("Текст отсутствует в файле"); }
             } else {
                 System.out.println("Файла не существует");
             }
@@ -23,7 +47,7 @@ public class Resourses {
         System.out.println("Введите число на которое хотите сделать смещение: ");
         while (true) {
             int key = console.nextInt();
-            if (key <= 32 && key > 0) {
+            if (key <= Constants.getALPHABET().size() - 1 && key >= 0) {
                 return key;
             } else {
                 System.out.println("Введите ключ в пределах длинны алфавита: ");
@@ -32,7 +56,7 @@ public class Resourses {
         }
     }
 
-    public String getWay() { //метод получения направления смещения
+    /* public String getWay() { //метод получения направления смещения
         Scanner scanner = new Scanner(System.in);
         System.out.println("Введите сторону смещения L или R");
         while (true) {
@@ -45,5 +69,5 @@ public class Resourses {
                 System.out.println("Неверное направление");
             }
         }
-    }
+    } */
 }
