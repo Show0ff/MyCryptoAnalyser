@@ -6,8 +6,11 @@ import java.util.List;
 
 public class Constants {
 
-    private static final Path cryptText = Path.of("C:\\JAVA\\MyProjects\\MyCryptoAnalyser\\src\\other\\cryptText.txt");
-    private static final Path originalText = Path.of("C:\\JAVA\\MyProjects\\MyCryptoAnalyser\\src\\other\\originalText.txt");
+    private static final Path cryptText = Path.of("src\\texts\\cryptText.txt");
+
+    private static final Path text = Path.of("src\\texts\\text.txt");
+
+    private static final Path originalText = Path.of("src\\texts\\originalText.txt");
     private static final List<Character> ALPHABET = Arrays.asList('а', 'б', 'в',
             'г', 'д', 'е', 'ё', 'ж', 'з', 'и','й','к', 'л', 'м', 'н', 'о', 'п', 'р', 'с', 'т', 'у',
             'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ъ', 'ы', 'ь', 'э','ю', 'я', '.', ',', '«', '»',
@@ -15,6 +18,10 @@ public class Constants {
 
     public static Path getOriginalText() {
         return originalText;
+    }
+
+    public static Path getText() {
+        return text;
     }
 
     public static Path getCryptText() {

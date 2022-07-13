@@ -1,34 +1,34 @@
 package ru.cryptoanaliser.khlopin;
 
-import ru.cryptoanaliser.khlopin.toplevel.Application;
+import ru.cryptoanaliser.khlopin.commands.BruteForce;
 import ru.cryptoanaliser.khlopin.commands.Decrypt;
 import ru.cryptoanaliser.khlopin.commands.Encrypt;
-import ru.cryptoanaliser.khlopin.constants.Resourses;
-import ru.cryptoanaliser.khlopin.controller.MainController;
-import ru.cryptoanaliser.khlopin.entity.Result;
+import ru.cryptoanaliser.khlopin.constants.Resources;
+
+
 
 public class Runner {
     public static void main(String[] args) {
-        doDecrypt();
-        MainController mainController = new MainController();
-        Application application = new Application(mainController);
-        Result result = application.run(args);
-        System.out.println(result);
+        doCrypt();
     }
 
     public static void doCrypt() {
-        Encrypt encrypt = new Encrypt();
-        Resourses resourses = new Resourses();
-        String text1 = resourses.getTextForCrypt(); // original TEXT
-        int key = resourses.getKey();
-        encrypt.crypt(text1,key);
+        String text1 = Resources.getText(); // Result in crypt TEXT
+        int key = Resources.getKey();
+        Encrypt.crypt(text1,key);
     }
 
     public static void doDecrypt() {
-        Decrypt decrypt = new Decrypt();
-        Resourses resourses = new Resourses();
-        String text2 = resourses.getTextForDecrypt(); // crypt TEXT
-        int key = resourses.getKey();
-        decrypt.decrypt(text2,key);
+        String text2 = Resources.getTextCrypt(); // Result in ordinal TEXT
+        int key = Resources.getKey();
+        Decrypt.decrypt(text2,key);
+    }
+
+    public static void doBruteForce() {
+        System.out.println("Старт");
+        String text = Resources.getTextCrypt(); // Result in ordinal TEXT
+        System.out.println("Старт2");
+        BruteForce.bruteForce(text);
+        System.out.println("Старт3");
     }
 }

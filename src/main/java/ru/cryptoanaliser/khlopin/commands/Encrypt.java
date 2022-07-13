@@ -1,7 +1,7 @@
 package ru.cryptoanaliser.khlopin.commands;
 
 import ru.cryptoanaliser.khlopin.constants.Constants;
-import ru.cryptoanaliser.khlopin.entity.Result;
+import ru.cryptoanaliser.khlopin.exception.ApplicationException;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -10,9 +10,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Arrays;
 
-public class Encrypt implements Action{
+public class Encrypt {
 
-    public void crypt(String text, int key) { //метод шифрования
+    public static void crypt(String text, int key) { //метод шифрования
             char[] charArray = text.toCharArray();
             for (int i = 0; i < text.length(); i++) {
                 int temp = Constants.getALPHABET().indexOf(text.charAt(i)); // Получаем индекс символа в алфавите из входящего текста
@@ -25,14 +25,8 @@ public class Encrypt implements Action{
         try {
             Files.write(Constants.getCryptText(),result);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ApplicationException(e.getMessage());
         }
 
-    }
-
-    @Override
-    public Result execute(String[] parameters) {
-        //TODO Вставить сюда код сверху
-        return null;
     }
 }
