@@ -1,6 +1,9 @@
 package ru.cryptoanaliser.khlopin.commands;
 
 import ru.cryptoanaliser.khlopin.constants.Constants;
+import ru.cryptoanaliser.khlopin.constants.Dictionary;
+import ru.cryptoanaliser.khlopin.controller.Controller;
+import ru.cryptoanaliser.khlopin.exception.ApplicationException;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -12,11 +15,28 @@ import java.util.random.RandomGenerator;
 
 public class BruteForce {
 
+
     public static void bruteForce(String text) {
+        System.out.println("******************************************");
+        System.out.println("Выберите метод взлома:");
+        System.out.println("1 - Взлом по пунктуации");
+        System.out.println("2 - Взлом по словарю");
+        System.out.println("******************************************");
+        Scanner console = new Scanner(System.in);
+        int key = console.nextInt();
+        if (key == 1) {
+            bruteForceByGrammatical(text);
+        } else if (key == 2){
+            bruteForceByDictionary(text);
+        } else {
+            System.out.println("Введено неверное значение");
+            Controller.run();
+        }
+    }
+
+    private static void bruteForceByDictionary(String text) {
 
         char[] charArray = tryToDecrypt(text);
-
-
         boolean successful = false;
         while (!successful) {
             String text1 = new String(charArray);
@@ -26,22 +46,44 @@ public class BruteForce {
                 textTokenInList.add(tokenizer.nextToken()); // делит стринг на токены по пробелам и добавляет их в список
             }
             for (int i = 0; i < textTokenInList.size(); i++) {
-                if (i > 0 && textTokenInList.get(i).equals("но") && textTokenInList.get(i - 1).endsWith(",")) {
-                    successful = true;
-                    break;
+                for (int j = 0; j < Dictionary.dictionary.size(); j++) {
+                    if (i > 0 && textTokenInList.get(i).equals(Dictionary.dictionary.get(j))) {
+                        successful = true;
+                        break;
+                    }
                 }
             }
             if (!successful) {
                 charArray = tryToDecrypt(text);
             }
         }
+        writeResultInFile(charArray);
 
-        // Разделить слова по пробелам в отдельные токены и добавить в список, после сравнить элементы списка с условием и
-        //Условия правильно шифрования:
-        //1. Если charArray содержит в себе пробелы' ' И
-        //2. запятые перед союзами НО и А
+    }
 
+    private static void bruteForceByGrammatical(String text) {
 
+        char[] charArray = tryToDecrypt(text);
+        boolean successful = false;
+        while (!successful) {
+            String text1 = new String(charArray);
+            StringTokenizer tokenizer = new StringTokenizer(text1, " ");
+            List<String> textTokenInList = new ArrayList<>();
+            while (tokenizer.hasMoreTokens()) {
+                textTokenInList.add(tokenizer.nextToken()); // делит стринг на токены по пробелам и добавляет их в список
+            }
+            for (int i = 0; i < textTokenInList.size(); i++) {
+                for (int j = 0; j < Dictionary.introductoryWords.size(); j++) {
+                    if (i > 0 && textTokenInList.get(i).equals(Dictionary.introductoryWords.get(j)) && textTokenInList.get(i - 1).endsWith(",")) {
+                        successful = true;
+                        break;
+                    }
+                }
+            }
+            if (!successful) {
+                charArray = tryToDecrypt(text);
+            }
+        }
         writeResultInFile(charArray);
 
     }
@@ -50,8 +92,7 @@ public class BruteForce {
     private static char[] tryToDecrypt(String text) {
          Random random = new Random();
         int key = random.nextInt(Constants.getALPHABET().size());
-        System.out.println(key);
-//        int key = 15;
+        System.out.println("Пробуем ключ " + key);
         char[] charArray = text.toCharArray();
 
         for (int i = 0; i < text.length(); i++) {
